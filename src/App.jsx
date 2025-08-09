@@ -7,8 +7,13 @@ import PageNotFound from "./pages/PageNotFound";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
 import AppLayout from "./ui/AppLayout";
+import { getCabins } from "./services/apiCabins";
 
 function App() {
+  getCabins()
+    .then((data) => console.log("DATA:", data))
+    .catch((err) => console.error("ERROR:", err));
+
   return (
     <>
       <Router>
