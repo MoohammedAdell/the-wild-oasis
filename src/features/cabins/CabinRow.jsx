@@ -1,9 +1,10 @@
-/* eslint-disable no-unused-vars */
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { deletCabins } from "../../services/apiCabins";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { FaCheckCircle, FaSpinner, FaTrash } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 const TableRow = styled.div`
   display: grid;
@@ -43,6 +44,10 @@ const Discount = styled.div`
   font-weight: 500;
   color: var(--color-green-700);
 `;
+// const MaxCapacity = styled.div`
+//   font-family: "Sono";
+//   font-weight: 800;
+// `;
 
 function CabinRow({ cabin }) {
   const {
@@ -56,27 +61,37 @@ function CabinRow({ cabin }) {
 
   const queryClint = useQueryClient();
 
-  const { isPending: isDeleting, mutate } = useMutation({
+  const {
+    isPending: isDeleting,
+    isSuccess,
+    mutate,
+  } = useMutation({
     mutationFn: deletCabins,
     onSuccess: () => {
-      alert("Cabin deleted successfully...");
+      toast.success("Cabin deleted successfully...");
 
       queryClint.invalidateQueries({
         queryKey: ["cabins"],
       });
     },
-    onError: (err) => alert(err.message),
+    onError: (err) => toast.error(err.message),
   });
 
   return (
     <TableRow>
       <Img src={image} alt={name} />
       <Cabin>{name}</Cabin>
-      <p>{maxCapacity}</p>
+      <div> Fits up to {maxCapacity} guests</div>
       <Price>{formatCurrency(regularPrice)}</Price>
       <Discount>{formatCurrency(discount)}</Discount>
       <button onClick={() => mutate(cabinId)} disabled={isDeleting}>
-        <RiDeleteBinLine />
+        {isDeleting ? (
+          <FaSpinner className="animate-spin" />
+        ) : isSuccess ? (
+          <FaCheckCircle />
+        ) : (
+          <FaTrash />
+        )}
       </button>
     </TableRow>
   );
