@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
-import { RiDeleteBinLine } from "react-icons/ri";
 import { deletCabins } from "../../services/apiCabins";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FaCheckCircle, FaSpinner, FaTrash } from "react-icons/fa";

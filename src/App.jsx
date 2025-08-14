@@ -12,6 +12,7 @@ import AppLayout from "./ui/AppLayout";
 import GlobalStyles from "./styles/GlabalStyles";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
+import CreateCabinForm from "./features/cabins/CreateCabinForm";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -37,6 +38,7 @@ function App() {
             <Route path="/users" element={<Users />} />
             <Route path="/settings" element={<Settings />} />
           </Route>
+          <Route path="/creatcabin" element={<CreateCabinForm />} />
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<PageNotFound />} />
         </Router>
